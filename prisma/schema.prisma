@@ -4,10 +4,22 @@ datasource db {
 }
 
 model users {
-  id       Int       @id @default(autoincrement())
-  email String
-  password String
+  id          Int       @id @default(autoincrement())
+  email       String
+  password    String
+  credentials credentials[]
   @@unique([email])
+}
+
+model credentials {
+  id       Int       @id @default(autoincrement())
+  userId   Int
+  user     users     @relation(fields: [userId], references: [id])
+  url      String
+  username String
+  password String
+  title    String
+  @@unique([title, userId])
 }
 
 generator client {
