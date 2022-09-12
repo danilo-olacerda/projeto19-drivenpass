@@ -9,6 +9,7 @@ model users {
   password    String
   credentials credentials[]
   notes       notes[]
+  cards      cards[]
   @@unique([email])
 }
 
@@ -30,6 +31,21 @@ model notes {
   title    String @db.VarChar(50)
   content  String @db.VarChar(100)
   @@unique([title, userId])
+}
+
+model cards {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       users    @relation(fields: [userId], references: [id])
+  cardNumber String   @db.VarChar(16)
+  cardHolder String
+  expiryDate String   @db.VarChar(7)
+  cvv        String
+  isVirtual  Boolean
+  password   String
+  type       String   @db.VarChar(1)
+  cardName   String
+  @@unique([cardNumber, userId])
 }
 
 generator client {
