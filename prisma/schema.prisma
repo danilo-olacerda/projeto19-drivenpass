@@ -11,6 +11,7 @@ model users {
   notes       notes[]
   cards      cards[]
   networks    networks[]
+  documents   documents[]
   @@unique([email])
 }
 
@@ -56,6 +57,18 @@ model networks {
   networkName String
   password    String
   name        String
+}
+
+model documents {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  user           users    @relation(fields: [userId], references: [id])
+  name           String
+  emissionDate   String   @db.VarChar(10)
+  expiryDate     String   @db.VarChar(10)
+  registerNumber String
+  emissor        String
+  type           String   @db.VarChar(3)
 }
 
 generator client {
