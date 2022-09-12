@@ -10,6 +10,7 @@ model users {
   credentials credentials[]
   notes       notes[]
   cards      cards[]
+  networks    networks[]
   @@unique([email])
 }
 
@@ -46,6 +47,15 @@ model cards {
   type       String   @db.VarChar(1)
   cardName   String
   @@unique([cardNumber, userId])
+}
+
+model networks {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        users    @relation(fields: [userId], references: [id])
+  networkName String
+  password    String
+  name        String
 }
 
 generator client {
