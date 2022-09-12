@@ -8,6 +8,7 @@ model users {
   email       String
   password    String
   credentials credentials[]
+  notes       notes[]
   @@unique([email])
 }
 
@@ -18,7 +19,16 @@ model credentials {
   url      String
   username String
   password String
-  title    String
+  title    String @db.VarChar(50)
+  @@unique([title, userId])
+}
+
+model notes {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  user     users    @relation(fields: [userId], references: [id])
+  title    String @db.VarChar(50)
+  content  String @db.VarChar(100)
   @@unique([title, userId])
 }
 
